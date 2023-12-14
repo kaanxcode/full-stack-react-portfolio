@@ -1,0 +1,77 @@
+/* AboutAdmin.module.css */
+
+.AboutAdminContainer {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #f8f8f8;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.AboutAdminForm {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+}
+
+.AboutAdminInput,
+.AboutAdminTextarea {
+  margin-bottom: 10px;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.AboutAdminButton {
+  background-color: #007bff;
+  color: #fff;
+  padding: 10px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.AboutAdminButton:hover {
+  background-color: #0056b3;
+}
+
+.AboutList {
+  list-style-type: none;
+  padding: 0;
+}
+
+.AboutListItem {
+  margin-bottom: 10px;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.AboutListItem span {
+  margin-right: 10px;
+}
+
+.AboutListItem button {
+  background-color: #dc3545;
+  color: #fff;
+  padding: 8px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.AboutListItemButtonUpdate {
+  background-color: #2fff00 !important;
+  color: #fff;
+  padding: 8px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.AboutListItem button:hover {
+  background-color: #c82333;
+}

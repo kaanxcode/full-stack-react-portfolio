@@ -1,0 +1,29 @@
+[
+  {
+    "role": "Bilgi İşlem Stajyeri",
+    "organisation": "Paşa Beach Hotel",
+    "startDate": "Temmuz, 2023",
+    "endDate": "Ağustos, 2023",
+    "experiences": ["Bilgi işlem bölümünde stajyer", " Web sitesinde operasyon tarafında yer aldım."],
+    "imageSrc": "history/google.png"
+  },
+  {
+    "role": "UI Designer",
+    "organisation": "Mirosoft",
+    "startDate": "Aug, 2021",
+    "endDate": "Aug, 2022",
+    "experiences": ["Worked on Windows 11", "Designed the control panel"],
+    "imageSrc": "history/microsoft.png"
+  },
+  {
+    "role": "SWE Intern",
+    "organisation": "Netflix",
+    "startDate": "Apr, 2020",
+    "endDate": "Jun, 2020",
+    "experiences": [
+      "Worked on component library",
+      "Helped create UI components"
+    ],
+    "imageSrc": "history/netflix.png"
+  }
+]
