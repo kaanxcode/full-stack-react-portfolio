@@ -1,10 +1,9 @@
-// Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
+import { getStorage } from "firebase/storage";
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import toast from "react-hot-toast";
 
-// Your web app's Firebase configuration
 const firebaseConfig = {
   apiKey: "AIzaSyDcuf0FBUHW4NlGlEtF4hnfurYDkhJACOI",
   authDomain: "reactportfolio-bac3d.firebaseapp.com",
@@ -15,9 +14,20 @@ const firebaseConfig = {
   messagingSenderId: "5049100350",
   appId: "1:5049100350:web:49cd02e2e75efa4b51096f",
 };
-
 const app = initializeApp(firebaseConfig);
-
+const auth = getAuth(app);
+const storage = getStorage(app);
 const db = getFirestore(app);
 
+export const login = async (email, password) => {
+  try {
+    const { user } = await signInWithEmailAndPassword(auth, email, password);
+    toast.success("Giris Basarili");
+    return user;
+  } catch (error) {
+    toast.error(error.message);
+  }
+};
+
 export default db;
+export { storage, auth };

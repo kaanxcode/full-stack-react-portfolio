@@ -1,28 +1,47 @@
-.admin-container {
-  max-width: 800px;
-  margin: 0 auto;
+/* Admin.module.css */
+
+.admincontainer {
+  display: flex;
+  flex-direction: column;
+}
+
+.navbar {
+  display: flex;
+  background-color: #333;
+  color: #fff;
+  padding: 20px;
+  justify-content: space-between;
+}
+
+.navbar h2 {
+  margin: 0;
+}
+
+.navbar ul {
+  list-style-type: none;
+  padding: 0;
+  display: flex;
+}
+
+.navbar li {
+  padding: 5px;
+  border-radius: 10px;
+  cursor: pointer;
+  margin-right: 20px;
+  background-color: blue;
+}
+
+.navbar li.active {
+  background-color: rgb(0, 255, 0); /* Veya istediğiniz başka bir renk */
+}
+
+.content {
+  flex: 1;
   padding: 20px;
 }
 
 h1 {
   color: #333;
-}
-
-nav ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-nav ul li {
-  display: inline;
-  margin-right: 10px;
-}
-
-nav a {
-  text-decoration: none;
-  color: #007bff;
-  font-weight: bold;
 }
 
 hr {

@@ -5,9 +5,13 @@ import "./index.css";
 
 import "@fontsource/outfit";
 import "@fontsource/roboto";
+import { Toaster } from "react-hot-toast";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
+    <div>
+      <Toaster />
+    </div>
     <App />
   </React.StrictMode>
 );

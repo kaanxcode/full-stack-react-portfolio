@@ -1,39 +1,68 @@
 // Admin.jsx
-import React from "react";
+import React, { useState } from "react";
 import HeroAdmin from "./HeroAdmin";
 import AboutAdmin from "./AboutAdmin";
 import ContactAdmin from "./ContactAdmin";
-import "./css/Admin.module.css";
+import styles from "./css/Admin.module.css"; // CSS dosyasını import edin
+import ExperienceAdmin from "./ExperienceAdmin";
+import Test from "./test";
 
 const Admin = () => {
+  const [selectedModule, setSelectedModule] = useState("hero");
+
+  const handleModuleChange = (module) => {
+    setSelectedModule(module);
+  };
+
   return (
-    <div className="admin-container">
-      <h1>Admin Panel</h1>
-      <nav>
+    <div className={styles.admincontainer}>
+      <nav className={styles.navbar}>
+        <h2>Admin Panel</h2>
         <ul>
-          <li>
-            <a href="#hero">Hero</a>
+          <li
+            className={selectedModule === "hero" ? styles.active : ""}
+            onClick={() => handleModuleChange("hero")}
+          >
+            Hero Module
           </li>
-          <li>
-            <a href="#about">About</a>
+          <li
+            className={selectedModule === "about" ? styles.active : ""}
+            onClick={() => handleModuleChange("about")}
+          >
+            About Module
           </li>
-          <li>
-            <a href="#contact">Contact</a>
+          <li
+            className={selectedModule === "experience" ? styles.active : ""}
+            onClick={() => handleModuleChange("experience")}
+          >
+            Experience Module
+          </li>
+          <li
+            className={selectedModule === "contact" ? styles.active : ""}
+            onClick={() => handleModuleChange("contact")}
+          >
+            Contact Module
+          </li>
+          <li
+            className={selectedModule === "test" ? styles.active : ""}
+            onClick={() => handleModuleChange("test")}
+          >
+            TEST
           </li>
         </ul>
       </nav>
-      <hr />
-      <section id="hero">
-        <HeroAdmin />
-      </section>
-      <hr />
-      <section id="about">
-        <AboutAdmin />
-      </section>
-      <hr />
-      <section id="contact">
-        <ContactAdmin />
-      </section>
+      <div className={styles.content}>
+        <h1>
+          {selectedModule.charAt(0).toUpperCase() + selectedModule.slice(1)}{" "}
+          Module
+        </h1>
+        <hr />
+        {selectedModule === "hero" && <HeroAdmin />}
+        {selectedModule === "about" && <AboutAdmin />}
+        {selectedModule === "contact" && <ContactAdmin />}
+        {selectedModule === "experience" && <ExperienceAdmin />}
+        {selectedModule === "test" && <Test />}
+      </div>
     </div>
   );
 };

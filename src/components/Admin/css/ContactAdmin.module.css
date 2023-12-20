@@ -1,0 +1,78 @@
+.ContactAdminContainer {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #f8f8f8;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.ContactAdminForm {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+}
+
+.ContactAdminTitle,
+.ContactAdminMail,
+.ContactAdminLinkedin,
+.ContactAdminGithub {
+  margin-bottom: 10px;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.ContactAdminButton {
+  background-color: #007bff;
+  color: #fff;
+  padding: 10px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.ContactAdminButton:hover {
+  background-color: #0056b3;
+}
+
+.ContactList {
+  list-style-type: none;
+  padding: 0;
+}
+
+.ContactListItem {
+  margin-bottom: 10px;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.ContactListItem span {
+  margin-right: 10px;
+}
+
+.ContactListItem button {
+  background-color: #dc3545;
+  color: #fff;
+  padding: 8px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.ContactListItemButtonUpdate {
+  background-color: #2fff00 !important;
+  color: #fff;
+  padding: 8px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.ContactListItem button:hover {
+  background-color: #c82333;
+}
