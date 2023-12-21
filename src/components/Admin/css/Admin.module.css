@@ -48,6 +48,14 @@ hr {
   border: 1px solid #eee;
 }
 
+.logout {
+  display: flex;
+  background-color: #ff0000;
+  padding: 5px;
+  border-radius: 10px;
+  cursor: pointer;
+  margin-right: 20px;
+}
 /* Stilize each section if needed */
 #hero,
 #about,

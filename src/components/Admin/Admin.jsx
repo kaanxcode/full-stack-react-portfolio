@@ -6,12 +6,24 @@ import ContactAdmin from "./ContactAdmin";
 import styles from "./css/Admin.module.css"; // CSS dosyasını import edin
 import ExperienceAdmin from "./ExperienceAdmin";
 import Test from "./test";
+import { logout } from "../../service/firebase";
+import { useNavigate } from "react-router-dom";
 
 const Admin = () => {
   const [selectedModule, setSelectedModule] = useState("hero");
+  const navigate = useNavigate();
 
   const handleModuleChange = (module) => {
     setSelectedModule(module);
+  };
+
+  const handleLogout = async () => {
+    try {
+      await logout();
+      navigate("/login");
+    } catch (error) {
+      console.error("Logout error:", error);
+    }
   };
 
   return (
@@ -49,6 +61,9 @@ const Admin = () => {
           >
             TEST
           </li>
+          <a onClick={handleLogout} className={styles.logout}>
+            Çıkış Yap
+          </a>
         </ul>
       </nav>
       <div className={styles.content}>

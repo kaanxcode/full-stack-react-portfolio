@@ -4,9 +4,11 @@ import { getImageUrl } from "../../utils";
 import styles from "./Hero.module.css";
 import { collection, doc, getDoc, getDocs } from "firebase/firestore";
 import db from "../../service/firebase";
+import toast from "react-hot-toast";
 
 const Hero = () => {
   const [name, setName] = useState("");
+  const [image, setImage] = useState("");
   const [description, setDescription] = useState("");
 
   useEffect(() => {
@@ -24,6 +26,8 @@ const Hero = () => {
             const data = heroDoc.data();
             setName(data.title);
             setDescription(data.description);
+            setImage(data.imageUrl);
+            console.log(data.imageUrl);
           } else {
             console.log("Hero document not found");
           }
@@ -52,11 +56,7 @@ const Hero = () => {
           </a>
         </div>
       </div>
-      <img
-        src={getImageUrl("hero/heroImage.png")}
-        alt="hero-image"
-        className={styles.heroImg}
-      />
+      <img src={image} alt="hero-image" className={styles.heroImg} />
       <div className={styles.topBlur} />
       <div className={styles.bottomBlur} />
     </section>

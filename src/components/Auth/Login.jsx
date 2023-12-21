@@ -28,6 +28,7 @@ const Login = ({ onLogin }) => {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           placeholder="Email"
+          autoComplete="on"
         />
         <input
           className={style.inputField}

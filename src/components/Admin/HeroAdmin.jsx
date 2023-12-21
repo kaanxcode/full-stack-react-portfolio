@@ -1,6 +1,11 @@
 // eslint-disable-next-line no-unused-vars
 import React, { useEffect, useState } from "react";
-import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import {
+  ref,
+  uploadBytes,
+  getDownloadURL,
+  deleteObject,
+} from "firebase/storage";
 import { storage } from "../../service/firebase";
 import db from "../../service/firebase";
 import {
@@ -30,25 +35,14 @@ const HeroAdmin = () => {
     const downloadURL = await getDownloadURL(storageRef);
     return downloadURL;
   };
-
+  //
   const saveImageInfo = async (downloadURL) => {
+    // Resim URL'sini Firestore'a kaydet
     try {
       const imageInfo = {
         url: downloadURL,
         createdAt: new Date(),
       };
-
-      // Eğer resim bilgilerini Hero koleksiyonuna eklemek istiyorsanız,
-      // aşağıdaki şekilde değişiklik yapabilirsiniz:
-      const heroesCollectionRef = collection(db, "Hero");
-
-      // Şu anki kahramanın bilgilerini ekleyin
-      await addDoc(heroesCollectionRef, {
-        title: title,
-        description: description,
-        imageUrl: downloadURL, // Eğer resim URL'sini saklamak istiyorsanız
-        createdAt: new Date(),
-      });
     } catch (error) {
       console.error("Error saving image info: ", error);
     }
@@ -86,9 +80,12 @@ const HeroAdmin = () => {
         setEditingHero(null); // Düzenleme modunu kapat
       } else {
         // Yeni bir kahraman ekleniyorsa, Firestore'a ekle
+        // Not: Resmi burada tekrar yüklemenize gerek yok, zaten yukarıda yüklenmişti.
         await addDoc(collection(db, "Hero"), {
           title: title,
           description: description,
+          imageUrl: downloadURL, // Eğer resim URL'sini saklamak istiyorsanız
+          createdAt: new Date(),
         });
       }
     } catch (error) {
@@ -105,13 +102,21 @@ const HeroAdmin = () => {
     setFile(null);
   };
 
-  const handleDelete = async (heroId) => {
-    // Bir kahramanı Firestore'dan sil
+  const handleDelete = async (heroId, imageUrl) => {
     try {
+      // Firestore'dan kahramanı sil
       await deleteDoc(doc(db, "Hero", heroId));
       console.log("Doküman başarıyla silindi!");
+
+      // Resmi Firebase Storage'dan sil
+      const storageRef = ref(storage, imageUrl);
+      await deleteObject(storageRef);
+      console.log("Resim başarıyla silindi!");
     } catch (error) {
-      console.error("Hata: Doküman silinirken bir hata oluştu", error);
+      console.error(
+        "Hata: Doküman veya resim silinirken bir hata oluştu",
+        error
+      );
     }
   };
 
@@ -185,8 +190,14 @@ const HeroAdmin = () => {
           <li key={hero.id} className={styles.heroListItem}>
             <span>{hero.title}</span>
             <span>{hero.description}</span>
-            <span>{hero.imageUrl}</span>
-            <span>{console.log(hero.imageUrl)}</span>
+            <span>
+              {" "}
+              <img
+                src={hero.imageUrl}
+                alt={hero.title}
+                style={{ maxWidth: 150, maxHeight: 150 }}
+              />{" "}
+            </span>
 
             {/* Eğer hero nesnesinde bir resim URL'si varsa, küçük bir önizleme göster */}
             {hero.url && (
@@ -203,7 +214,9 @@ const HeroAdmin = () => {
             >
               Düzenle
             </button>
-            <button onClick={() => handleDelete(hero.id)}>Sil</button>
+            <button onClick={() => handleDelete(hero.id, hero.imageUrl)}>
+              Sil
+            </button>
           </li>
         ))}
       </ul>
