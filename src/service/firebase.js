@@ -1,7 +1,13 @@
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
 import { getStorage } from "firebase/storage";
-import { getAuth, signInWithEmailAndPassword, signOut } from "firebase/auth";
+import {
+  browserLocalPersistence,
+  getAuth,
+  setPersistence,
+  signInWithEmailAndPassword,
+  signOut,
+} from "firebase/auth";
 import toast from "react-hot-toast";
 
 const firebaseConfig = {
@@ -21,8 +27,11 @@ const db = getFirestore(app);
 
 export const login = async (email, password) => {
   try {
+    await setPersistence(auth, browserLocalPersistence);
+
     const { user } = await signInWithEmailAndPassword(auth, email, password);
-    toast.success("Giris Basarili");
+    localStorage.setItem("user", JSON.stringify(user));
+    toast.success("Giriş Başarılı");
     return user;
   } catch (error) {
     toast.error(error.message);

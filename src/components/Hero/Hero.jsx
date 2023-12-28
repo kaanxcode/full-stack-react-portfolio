@@ -4,12 +4,13 @@ import { getImageUrl } from "../../utils";
 import styles from "./Hero.module.css";
 import { collection, doc, getDoc, getDocs } from "firebase/firestore";
 import db from "../../service/firebase";
-import toast from "react-hot-toast";
 
 const Hero = () => {
   const [name, setName] = useState("");
   const [image, setImage] = useState("");
   const [description, setDescription] = useState("");
+  const [cvTr, setCvTr] = useState("");
+  const [cvEn, setCvEn] = useState("");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -27,7 +28,8 @@ const Hero = () => {
             setName(data.title);
             setDescription(data.description);
             setImage(data.imageUrl);
-            console.log(data.imageUrl);
+            setCvTr(data.cvTr);
+            setCvEn(data.cvEn);
           } else {
             console.log("Hero document not found");
           }
@@ -48,10 +50,20 @@ const Hero = () => {
         <h1 className={styles.title}>Ben {name}</h1>
         <p className={styles.description}>{description}</p>
         <div className={styles.containerBtn}>
-          <a href="mailto:myemail@gmail.com" className={styles.contactBtn}>
+          <a
+            href={cvTr}
+            className={styles.contactBtn}
+            target="_blank"
+            rel="noreferrer"
+          >
             Türkçe CV
           </a>
-          <a href="mailto:myemail@gmail.com" className={styles.contactBtn2}>
+          <a
+            href={cvEn}
+            className={styles.contactBtn2}
+            target="_blank"
+            rel="noreferrer"
+          >
             English CV
           </a>
         </div>

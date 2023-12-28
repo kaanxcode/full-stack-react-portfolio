@@ -8,6 +8,7 @@ import ExperienceAdmin from "./ExperienceAdmin";
 import Test from "./test";
 import { logout } from "../../service/firebase";
 import { useNavigate } from "react-router-dom";
+import ProjectAdmin from "./ProjectAdmin";
 
 const Admin = () => {
   const [selectedModule, setSelectedModule] = useState("hero");
@@ -20,6 +21,7 @@ const Admin = () => {
   const handleLogout = async () => {
     try {
       await logout();
+      localStorage.removeItem("user"); // Clear user information from local storage
       navigate("/login");
     } catch (error) {
       console.error("Logout error:", error);
@@ -50,17 +52,18 @@ const Admin = () => {
             Experience Module
           </li>
           <li
+            className={selectedModule === "project" ? styles.active : ""}
+            onClick={() => handleModuleChange("project")}
+          >
+            Project Module
+          </li>
+          <li
             className={selectedModule === "contact" ? styles.active : ""}
             onClick={() => handleModuleChange("contact")}
           >
             Contact Module
           </li>
-          <li
-            className={selectedModule === "test" ? styles.active : ""}
-            onClick={() => handleModuleChange("test")}
-          >
-            TEST
-          </li>
+
           <a onClick={handleLogout} className={styles.logout}>
             Çıkış Yap
           </a>
@@ -76,6 +79,7 @@ const Admin = () => {
         {selectedModule === "about" && <AboutAdmin />}
         {selectedModule === "contact" && <ContactAdmin />}
         {selectedModule === "experience" && <ExperienceAdmin />}
+        {selectedModule === "project" && <ProjectAdmin />}
         {selectedModule === "test" && <Test />}
       </div>
     </div>

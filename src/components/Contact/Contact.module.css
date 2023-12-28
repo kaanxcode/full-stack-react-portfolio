@@ -1,5 +1,3 @@
-@import "../../vars.css";
-
 .container {
   color: var(--color-text);
   margin-top: 120px;
@@ -7,27 +5,28 @@
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;
-  width: 100vw;
+  align-items: center; /* Center items vertically */
+  width: 100%;
   padding: 58px 10%;
   gap: 10px;
+}
+
+.text {
+  width: 50%; /* 50% width for the title */
 }
 
 .text h2 {
   font-size: 80px;
   font-weight: 700;
   letter-spacing: 4px;
-}
-
-.text p {
-  font-size: 40px;
-  font-weight: 400;
-  letter-spacing: 2px;
+  margin-bottom: 20px; /* Add some margin between title and links */
 }
 
 .links {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  justify-content: center;
+  align-items: center;
   list-style: none;
   gap: 26px;
 }
@@ -38,7 +37,7 @@
   gap: 25px;
 }
 
-.link a {
+.linkSpe {
   color: var(--color-text);
   text-decoration: none;
   font-size: 30px;
@@ -50,6 +49,11 @@
   .container {
     flex-direction: column;
     gap: 23px;
+  }
+
+  .text,
+  .links {
+    width: 100%; /* Full width on smaller screens */
   }
 
   .text {

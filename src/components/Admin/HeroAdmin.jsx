@@ -17,6 +17,7 @@ import {
   updateDoc,
 } from "firebase/firestore";
 import styles from "./css/HeroAdmin.module.css";
+import toast from "react-hot-toast";
 
 const HeroAdmin = () => {
   // --- STATE HOOKS ---
@@ -26,6 +27,8 @@ const HeroAdmin = () => {
   const [file, setFile] = useState(null); // Seçilen dosya için state
   const [heroes, setHeroes] = useState([]); // Kahraman listesi için state
   const [editingHero, setEditingHero] = useState(null); // Düzenleme modu için state
+  const [cvTr, setCvTr] = useState(""); // Türkçe CV için state
+  const [cvEn, setCvEn] = useState(""); // İngilizce CV için state
 
   // --- FIREBASE İŞLEMLERİ ---
   const uploadImage = async (file) => {
@@ -45,6 +48,7 @@ const HeroAdmin = () => {
       };
     } catch (error) {
       console.error("Error saving image info: ", error);
+      toast.error("Resim kaydedilirken şu hata oluştu: ", error);
     }
   };
 
@@ -67,8 +71,10 @@ const HeroAdmin = () => {
         const downloadURL = await uploadImage(file);
         await saveImageInfo(downloadURL);
         console.log("Gönderildi!");
+        toast.success("Gönderildi!");
       } else {
         console.log("Lütfen önce bir resim seçin!");
+        toast.error("Lütfen önce bir resim seçin!");
       }
 
       if (editingHero) {
@@ -76,23 +82,31 @@ const HeroAdmin = () => {
         await updateDoc(doc(db, "Hero", editingHero), {
           title: title,
           description: description,
+          cvTr: cvTr,
+          cvEn: cvEn,
         });
+        console.log("Doküman başarıyla güncellendi!");
         setEditingHero(null); // Düzenleme modunu kapat
       } else {
         // Yeni bir kahraman ekleniyorsa, Firestore'a ekle
-        // Not: Resmi burada tekrar yüklemenize gerek yok, zaten yukarıda yüklenmişti.
+
+        const downloadURL = await uploadImage(file);
         await addDoc(collection(db, "Hero"), {
           title: title,
           description: description,
+          cvTr: cvTr,
+          cvEn: cvEn,
           imageUrl: downloadURL, // Eğer resim URL'sini saklamak istiyorsanız
           createdAt: new Date(),
         });
+        console.log("Doküman başarıyla eklendi!");
       }
     } catch (error) {
-      console.error(
+      toast.error(
         "Hata: Doküman eklenir/güncellenirken bir hata oluştu",
         error
       );
+      toast.error("Doküman eklenir/güncellenirken bir hata oluştu.");
     }
 
     // Formu sıfırla
@@ -100,6 +114,8 @@ const HeroAdmin = () => {
     setDescription("");
     setSelectedImage(null);
     setFile(null);
+    setCvTr("");
+    setCvEn("");
   };
 
   const handleDelete = async (heroId, imageUrl) => {
@@ -107,16 +123,19 @@ const HeroAdmin = () => {
       // Firestore'dan kahramanı sil
       await deleteDoc(doc(db, "Hero", heroId));
       console.log("Doküman başarıyla silindi!");
+      toast.success("Doküman başarıyla silindi!");
 
       // Resmi Firebase Storage'dan sil
       const storageRef = ref(storage, imageUrl);
       await deleteObject(storageRef);
       console.log("Resim başarıyla silindi!");
+      toast.success("Resim başarıyla silindi!");
     } catch (error) {
       console.error(
         "Hata: Doküman veya resim silinirken bir hata oluştu",
         error
       );
+      toast.error("Doküman veya resim silinirken bir hata oluştu.");
     }
   };
 
@@ -125,6 +144,8 @@ const HeroAdmin = () => {
     setEditingHero(hero.id);
     setTitle(hero.title);
     setDescription(hero.description);
+    setCvTr(hero.cvTr);
+    setCvEn(hero.cvEn);
   };
 
   // --- VERİ GETİRME ---
@@ -167,6 +188,25 @@ const HeroAdmin = () => {
           onChange={(e) => setDescription(e.target.value)}
           className={styles.HeroAdminTextarea}
         />
+        <label htmlFor="cvTr">Türkçe CV Linkiniz</label>
+        <input
+          type="text"
+          name="cvTr"
+          id="cvTr"
+          value={cvTr}
+          onChange={(e) => setCvTr(e.target.value)}
+          className={styles.HeroAdminInput}
+        />
+        <label htmlFor="cvEn">İngilizce CV Linkiniz</label>
+        <input
+          type="text"
+          name="cvEn"
+          id="cvEn"
+          value={cvEn}
+          onChange={(e) => setCvEn(e.target.value)}
+          className={styles.HeroAdminInput}
+        />
+        <label htmlFor="file">Resminizi Seçiniz</label>
         <input type="file" onChange={handleFileChange} />
         {/* Seçilen resmin önizlemesi */}
         {selectedImage && (
@@ -190,6 +230,23 @@ const HeroAdmin = () => {
           <li key={hero.id} className={styles.heroListItem}>
             <span>{hero.title}</span>
             <span>{hero.description}</span>
+            <a
+              href={hero.cvTr}
+              className={styles.contactBtn}
+              target="_blank"
+              rel="noreferrer"
+            >
+              Türkçe CV
+            </a>
+            <a
+              href={hero.cvEn}
+              className={styles.contactBtn2}
+              target="_blank"
+              rel="noreferrer"
+            >
+              English CV
+            </a>
+
             <span>
               {" "}
               <img

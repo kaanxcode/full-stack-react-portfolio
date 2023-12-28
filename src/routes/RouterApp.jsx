@@ -10,7 +10,9 @@ import HomePage from "../screens/HomePage";
 import Login from "../components/Auth/Login";
 
 const RouterApp = () => {
-  const [userHave, setUserHave] = useState(false);
+  const [userHave, setUserHave] = useState(
+    JSON.parse(localStorage.getItem("user")) || false
+  );
 
   const handleLogin = (isLoggedIn) => {
     setUserHave(isLoggedIn);

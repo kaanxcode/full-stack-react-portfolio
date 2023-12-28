@@ -10,6 +10,7 @@ import {
   updateDoc,
 } from "firebase/firestore";
 import styles from "./css/ContactAdmin.module.css"; // Corrected the import
+import toast from "react-hot-toast";
 
 const ContactAdmin = () => {
   const [title, setTitle] = useState("");
@@ -30,6 +31,7 @@ const ContactAdmin = () => {
           linkedin: linkedin,
           github: github,
         });
+        toast.success("Veri güncellendi");
         setEditingContact(null);
       } else {
         await addDoc(collection(db, "Contact"), {
@@ -38,9 +40,11 @@ const ContactAdmin = () => {
           linkedin: linkedin,
           github: github,
         });
+        toast.success("Kaydedildi!");
       }
     } catch (error) {
       console.error("Error adding/updating document: ", error);
+      toast.error("Hata oluştu: ", error);
     }
 
     setTitle("");
@@ -52,9 +56,10 @@ const ContactAdmin = () => {
   const handleDelete = async (contactId) => {
     try {
       await deleteDoc(doc(db, "Contact", contactId));
-      console.log("Document successfully deleted!");
+      toast.success("Veri başarıyla silindi");
     } catch (error) {
       console.error("Error deleting document: ", error);
+      toast.error("Hata oluştu: ", error);
     }
   };
 

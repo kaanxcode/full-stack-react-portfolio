@@ -7,6 +7,7 @@ import db from "../../service/firebase";
 const About = () => {
   const [gifts, setGifts] = useState([]);
   const [descriptions, setDescriptions] = useState([]);
+  const [image, setImage] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -21,6 +22,7 @@ const About = () => {
           // Her bir belge için ayrı ayrı işlemleri gerçekleştir
           const giftsArray = [];
           const descriptionsArray = [];
+          const imageArray = [];
 
           for (const document of firstThreeDocuments) {
             const aboutDoc = await getDoc(doc(db, "About", document.id));
@@ -29,6 +31,7 @@ const About = () => {
               const data = aboutDoc.data();
               giftsArray.push(data.gift);
               descriptionsArray.push(data.description);
+              imageArray.push(data.imageUrl);
             } else {
               console.log(`About document not found for ID: ${document.id}`);
             }
@@ -37,6 +40,7 @@ const About = () => {
           // State'leri güncelle
           setGifts(giftsArray);
           setDescriptions(descriptionsArray);
+          setImage(imageArray);
         } else {
           console.log("No documents found in 'About' collection");
         }
@@ -60,21 +64,8 @@ const About = () => {
         <ul className={styles.aboutItems}>
           {gifts.map((gift, index) => (
             <li key={index} className={styles.aboutItem}>
-              {index === 0 && (
-                <img
-                  src={getImageUrl("about/cursorIcon.png")}
-                  alt="Cursor icon"
-                />
-              )}
-              {index === 1 && (
-                <img
-                  src={getImageUrl("about/serverIcon.png")}
-                  alt="Server icon"
-                />
-              )}
-              {index === 2 && (
-                <img src={getImageUrl("about/cursorIcon.png")} alt="UI icon" />
-              )}
+              <img src={image[index]} alt="UI icon" />
+
               <div className={styles.aboutItemText}>
                 <h3>{gift}</h3>
                 <p>{descriptions[index]}</p>

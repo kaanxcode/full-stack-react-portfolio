@@ -1,61 +1,125 @@
-import React, { useEffect, useState } from "react";
-import {
-  ref as storageRef,
-  listAll,
-  getDownloadURL,
-  getMetadata,
-} from "firebase/storage";
-import { storage } from "../../service/firebase";
+import React, { useState } from "react";
+import db from "../../service/firebase";
 
-const Test = ({ klasorName }) => {
-  const [imageUrls, setImageUrls] = useState([]);
+const Test = () => {
+  const [formData, setFormData] = useState({
+    imageSrc: "",
+    title: "",
+    description: "",
+    skills: [],
+    demo: "",
+    source: "",
+  });
 
-  useEffect(() => {
-    const fetchImages = async () => {
-      try {
-        // "images" klasörüne referans oluştur
-        const imagesRef = storageRef(storage, klasorName);
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
 
-        // Klasördeki tüm dosyaların listesini al
-        const fileSnapshot = await listAll(imagesRef);
+  const handleAddSkill = () => {
+    setFormData((prevData) => ({
+      ...prevData,
+      skills: [...prevData.skills, "New Skill"],
+    }));
+  };
 
-        // Her dosya için metadata ve download URL'sini al
-        const imagesData = await Promise.all(
-          fileSnapshot.items.map(async (item) => {
-            const metadata = await getMetadata(item);
-            const url = await getDownloadURL(item);
-            return { url, timeCreated: metadata.timeCreated };
-          })
-        );
+  const db = db;
 
-        // Resimleri oluşturulma zamanına göre sırala
-        imagesData.sort(
-          (a, b) => new Date(a.timeCreated) - new Date(b.timeCreated)
-        );
+  const handleSubmit = async (e, db) => {
+    e.preventDefault();
 
-        // Sadece URL'leri ayıkla ve state'i güncelle
-        setImageUrls(imagesData.map((image) => image.url));
-      } catch (error) {
-        console.error("Resimleri getirme hatası:", error);
-      }
-    };
+    try {
+      // Add your Firebase Firestore collection name here
+      const collectionName = "Projects";
 
-    fetchImages();
-  }, []);
+      // Add the data to Firebase Firestore
+      await db.collection(collectionName).add(formData);
+
+      // Clear the form after submission
+      setFormData({
+        imageSrc: "",
+        title: "",
+        description: "",
+        skills: [],
+        demo: "",
+        source: "",
+      });
+
+      console.log("Form submitted successfully");
+    } catch (error) {
+      console.error("Error submitting form:", error);
+    }
+  };
 
   return (
     <div>
-      <ul>
-        {imageUrls.map((url, index) => (
-          <li key={index}>
-            <img
-              src={url}
-              alt={`Resim ${index}`}
-              style={{ width: "100px", height: "100px", marginRight: "10px" }}
-            />
-          </li>
-        ))}
-      </ul>
+      <form onSubmit={handleSubmit}>
+        <label>
+          Image Source:
+          <input
+            type="text"
+            name="imageSrc"
+            value={formData.imageSrc}
+            onChange={handleInputChange}
+          />
+        </label>
+        <br />
+        <label>
+          Title:
+          <input
+            type="text"
+            name="title"
+            value={formData.title}
+            onChange={handleInputChange}
+          />
+        </label>
+        <br />
+        <label>
+          Description:
+          <textarea
+            name="description"
+            value={formData.description}
+            onChange={handleInputChange}
+          />
+        </label>
+        <br />
+        <label>
+          Skills:
+          <ul>
+            {formData.skills.map((skill, id) => (
+              <li key={id}>{skill}</li>
+            ))}
+          </ul>
+          <button type="button" onClick={handleAddSkill}>
+            Add Skill
+          </button>
+        </label>
+        <br />
+        <label>
+          Demo Link:
+          <input
+            type="text"
+            name="demo"
+            value={formData.demo}
+            onChange={handleInputChange}
+          />
+        </label>
+        <br />
+        <label>
+          Source Link:
+          <input
+            type="text"
+            name="source"
+            value={formData.source}
+            onChange={handleInputChange}
+          />
+        </label>
+        <br />
+        <button type="submit">Submit</button>
+      </form>
     </div>
   );
 };
