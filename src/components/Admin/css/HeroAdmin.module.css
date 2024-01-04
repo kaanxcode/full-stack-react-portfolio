@@ -1,7 +1,10 @@
 /* HeroAdmin.module.css */
 
 .heroAdminContainer {
-  max-width: 600px;
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+  width: 1000px;
   margin: 0 auto;
   padding: 20px;
   background-color: #f8f8f8;
@@ -22,23 +25,48 @@
   border: 1px solid #ddd;
   border-radius: 4px;
 }
+.imageInput {
+  margin-bottom: 10px;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  width: 100%;
+}
 
 .HeroAdminButton {
+  background-color: #28a745;
+  color: #fff;
+  padding: 10px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  width: 10%;
+  transition: background-color 0.3s ease;
+}
+
+.HeroAdminButton:hover {
+  background-color: #218838;
+}
+.contactBtn2,
+.contactBtn {
   background-color: #007bff;
   color: #fff;
   padding: 10px;
   border: none;
   border-radius: 4px;
   cursor: pointer;
-}
-
-.HeroAdminButton:hover {
-  background-color: #0056b3;
+  transition: background-color 0.3s ease;
+  margin: 5px;
+  text-decoration: none;
+  font-size: 16px;
 }
 
 .heroList {
+  justify-content: center;
+  align-items: center;
   list-style-type: none;
   padding: 0;
+  width: 1000px;
 }
 
 .heroListItem {
@@ -49,6 +77,11 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  transition: background-color 0.3s ease;
+}
+
+.heroListItem:hover {
+  background-color: #f0f0f0;
 }
 
 .heroListItem span {
@@ -57,21 +90,30 @@
 
 .heroListItem button {
   background-color: #dc3545;
+  margin: 5px;
+  font-size: 16px;
   color: #fff;
   padding: 8px;
   border: none;
   border-radius: 4px;
   cursor: pointer;
-}
-.heroListItemButtonUpdate {
-  background-color: #2fff00 !important;
-  color: #fff;
-  padding: 8px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
 .heroListItem button:hover {
   background-color: #c82333;
+}
+
+.heroListItemButtonUpdate {
+  background-color: #007bff;
+  color: #fff;
+  padding: 8px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.heroListItemButtonUpdate:hover {
+  background-color: #0056b3;
 }

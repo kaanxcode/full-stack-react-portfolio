@@ -70,11 +70,6 @@ const Admin = () => {
         </ul>
       </nav>
       <div className={styles.content}>
-        <h1>
-          {selectedModule.charAt(0).toUpperCase() + selectedModule.slice(1)}{" "}
-          Module
-        </h1>
-        <hr />
         {selectedModule === "hero" && <HeroAdmin />}
         {selectedModule === "about" && <AboutAdmin />}
         {selectedModule === "contact" && <ContactAdmin />}

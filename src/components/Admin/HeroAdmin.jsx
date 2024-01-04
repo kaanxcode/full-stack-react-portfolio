@@ -207,7 +207,11 @@ const HeroAdmin = () => {
           className={styles.HeroAdminInput}
         />
         <label htmlFor="file">Resminizi Seçiniz</label>
-        <input type="file" onChange={handleFileChange} />
+        <input
+          type="file"
+          onChange={handleFileChange}
+          className={styles.imageInput}
+        />
         {/* Seçilen resmin önizlemesi */}
         {selectedImage && (
           <div>
